@@ -18,7 +18,7 @@ def scrape_spells():
     page = requests.get(url, timeout=10)
     soup = BeautifulSoup(page.content, 'html.parser')
     for level in range(0,10):    
-        spells = soup.select(f"#wiki-tab-0-{level} tr")
+        spells = soup.select(f"#wiki-tab-0-{level} tr a")
         print(spells)
         for name in spells:
             print(name.text.replace(' ', '-').lower())
