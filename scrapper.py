@@ -15,13 +15,26 @@ def scrape_classes():
 
 def scrape_spell(links):
     '''Scrapes the individual spell information and puts it into an object before returning the list of objects'''
-    print(links)
     # for level in links:
     #     for spell in level:
     url = f'https://dnd5e.wikidot.com{links[0][0]}'
     page = requests.get(url, timeout=10)
     soup = BeautifulSoup(page.content, 'html.parser')
-    print(soup.text)
+    content = soup.select("#page-content p")
+    title = soup.select(".page-title")
+    print(title[0].text)
+    print(f"school {content[1].text}")
+    casting_time = soup.find('strong', string='Casting Time:').next_sibling.strip()
+    range_ = soup.find('strong', string='Range:').next_sibling.strip()
+    components = soup.find('strong', string='Components:').next_sibling.strip()
+    duration = soup.find('strong', string='Duration:').next_sibling.strip()
+    # users = content[-1].text.split(".")[1].split()
+    print("Casting Time:", casting_time)
+    print("Range:", range_)
+    print("Components:", components)
+    print("Duration:", duration)
+    print(f"users {content[-1].text.split(".")[1].split(",")}")
+    # print(content)
 
 def scrape_spell_links():
     '''gets all of the hrefs from the tables at the following address: https://dnd5e.wikidot.com/spells and returns it as a list of lists ordered by spell level'''
