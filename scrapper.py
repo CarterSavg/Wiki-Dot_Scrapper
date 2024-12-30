@@ -17,7 +17,7 @@ def scrape_spell(links):
     '''Scrapes the individual spell information and puts it into an object before returning the list of objects'''
     # for level in links:
     #     for spell in level:
-    url = f'https://dnd5e.wikidot.com{links[0][0]}'
+    url = f'https://dnd5e.wikidot.com{links[2][1]}'
     page = requests.get(url, timeout=10)
     soup = BeautifulSoup(page.content, 'html.parser')
     content = soup.select("#page-content p")
@@ -33,11 +33,11 @@ def scrape_spell(links):
         higher_levels = soup.find('strong', string='At Higher Levels.').next_sibling.strip()
     except:
         pass
-    # print("Casting Time:", casting_time)
-    # print("Range:", range_)
-    # print("Components:", components)
-    # print("Duration:", duration)
-    # print(f"users {content[-1].text.replace(" ", "").split(".")[1].split(",")}")
+    print("Casting Time:", casting_time)
+    print("Range:", range_)
+    print("Components:", components)
+    print("Duration:", duration)
+    print(f"users {content[-1].text.replace(" ", "").split(".")[1].split(",")}")
     if higher_levels:
         print(higher_levels)
 
