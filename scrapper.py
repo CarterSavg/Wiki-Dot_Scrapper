@@ -17,10 +17,12 @@ def scrape_spells():
     url = 'https://dnd5e.wikidot.com/spells'
     page = requests.get(url, timeout=10)
     soup = BeautifulSoup(page.content, 'html.parser')
+    hrefs_arr = []
     for level in range(0,10):    
         links = soup.select(f"#wiki-tab-0-{level} tr a")
         hrefs = [link['href'] for link in links]
-        print(hrefs)
+        hrefs_arr.append(hrefs)
+    print(hrefs_arr)
         # print(f'\nLevel {level}:')
         # for name in spells:
         #     print(name.text.lower().replace('/', ' ').replace(':', '').replace(' ', '-').replace("(hb)", ''))
