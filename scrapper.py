@@ -28,13 +28,18 @@ def scrape_spell(links):
     range_ = soup.find('strong', string='Range:').next_sibling.strip()
     components = soup.find('strong', string='Components:').next_sibling.strip()
     duration = soup.find('strong', string='Duration:').next_sibling.strip()
-    higher_levels = soup.find('strong', string='At Higher Levels.').next_sibling.strip()
+    higher_levels = None
+    try:
+        higher_levels = soup.find('strong', string='At Higher Levels.').next_sibling.strip()
+    except:
+        pass
     # print("Casting Time:", casting_time)
     # print("Range:", range_)
     # print("Components:", components)
     # print("Duration:", duration)
     # print(f"users {content[-1].text.replace(" ", "").split(".")[1].split(",")}")
-    print(higher_levels)
+    if higher_levels:
+        print(higher_levels)
 
 def scrape_spell_links():
     '''gets all of the hrefs from the tables at the following address: https://dnd5e.wikidot.com/spells and returns it as a list of lists ordered by spell level'''
