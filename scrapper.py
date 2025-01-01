@@ -16,12 +16,9 @@ def scrape_classes():
 def scrape_spell(links):
     #TODO:
     # create class and constructor
-    # Itterate through all spells
     '''Scrapes the individual spell information and puts it into an object before returning the list of objects'''
     for level_num, level in enumerate(links):
         for spell in level:
-    # spell = "/spell:acid-splash"
-    # level_num = 0
             url = f'https://dnd5e.wikidot.com{spell}'
             page = requests.get(url, timeout=10)
             soup = BeautifulSoup(page.content, 'html.parser')
