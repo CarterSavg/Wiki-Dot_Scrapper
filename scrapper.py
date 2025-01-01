@@ -16,17 +16,21 @@ def scrape_classes():
 def scrape_spell(links):
     #TODO:
     # create class and constructor
-    # get school name and level, different for cantrips and leveled spells
+    # Itterate through all spells
     '''Scrapes the individual spell information and puts it into an object before returning the list of objects'''
     # for level in links:
     #     for spell in level:
-    url = f'https://dnd5e.wikidot.com{links[3][0]}'
+    level = 0
+    url = f'https://dnd5e.wikidot.com{links[0][0]}'
     page = requests.get(url, timeout=10)
     soup = BeautifulSoup(page.content, 'html.parser')
     content = soup.select("#page-content p")
     title = soup.select(".page-title")
     print(title[0].text)
-    print(f"school {content[1].text}")
+    if level > 0:
+        print(f"school {content[1].text.split(" ")[-1].capitalize()}")
+    else:
+        print(f"school {content[1].text.split(" ")[0].capitalize()}")
     casting_time = soup.find('strong', string='Casting Time:').next_sibling.strip()
     range_ = soup.find('strong', string='Range:').next_sibling.strip()
     components = soup.find('strong', string='Components:').next_sibling.strip()
