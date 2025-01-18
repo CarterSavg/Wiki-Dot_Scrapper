@@ -2,10 +2,11 @@ import requests
 from bs4 import BeautifulSoup
 
 class spell:
-    def __init__(self, name, school, desc, level, casting_time, distance, components, duration, users):
+    def __init__(self, name, school, desc, level, casting_time, distance, components, duration, users, higher_level = None):
         self.name = name
         self.school = school
         self.desc = desc
+        self.higher_level = higher_level
         self.level = level
         self.casting_time = casting_time
         self.distance = distance
