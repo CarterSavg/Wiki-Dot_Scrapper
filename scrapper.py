@@ -35,6 +35,7 @@ def scrape_classes():
             print(soup.text)
 
 def scrape_spell_description(soup, content, higher_levels):
+    '''Get spell description. Is slightly different if it is a level 0 than all the others (Transmutation cantrip) vs (2nd-level evocation)'''
     desc = ""
     if higher_levels:
         for part in content[3:-2]:
@@ -51,6 +52,7 @@ def scrape_spell_description(soup, content, higher_levels):
     return desc
 
 def scrape_spell_details(soup, level_num):
+    '''Getting all the information for the spell from the soup and returning it as a Spell object'''
     content = soup.select("#page-content p")
     title = soup.select(".page-title")
     school = ""
@@ -78,7 +80,8 @@ def scrape_spell_details(soup, level_num):
 
 def scrape_spell(links):
     #TODO:
-    # create class and constructor
+    # create database and populate it
+    # Maybe don't scrape UA because its inconsistent
     spells = []
     '''Scrapes the individual spell information and puts it into an object before returning the list of objects'''
     for level_num, level in enumerate(links):
@@ -86,7 +89,7 @@ def scrape_spell(links):
             url = f'https://dnd5e.wikidot.com{spell}'
             page = requests.get(url, timeout=10)
             soup = BeautifulSoup(page.content, 'html.parser')
-            print(scrape_spell_details(soup, level_num))
+            spells.append(scrape_spell_details(soup, level_num))
             
 
 def scrape_spell_links():
