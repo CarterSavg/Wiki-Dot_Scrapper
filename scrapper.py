@@ -1,6 +1,19 @@
 import requests
 from bs4 import BeautifulSoup
 
+class spell:
+    def __init__(self, name, school, desc, level, casting_time, distance, components, duration, users):
+        self.name = name
+        self.school = school
+        self.desc = desc
+        self.level = level
+        self.casting_time = casting_time
+        self.distance = distance
+        self.components = components
+        self.duration = duration
+        self.users = users 
+
+
 def scrape_classes():
     '''Scrapes the classes from dnd5e wikidot using the classes.txt file as the extensions for each class'''
     file = open("classes.txt", "r")
