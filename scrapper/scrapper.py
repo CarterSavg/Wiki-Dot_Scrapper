@@ -1,5 +1,8 @@
+import os
+import psycopg2
 import requests
 from bs4 import BeautifulSoup
+from dotenv import load_dotenv
 
 class Spell:
     def __init__(self, name, school, desc, level, casting_time, distance, components, duration, users, higher_level = None):
@@ -110,4 +113,40 @@ def scrape_spells_brain():
     links = scrape_spell_links()
     scrape_spell(links)
     
-scrape_spells_brain()
+def insert_spells():
+    pass  
+
+def create_spells_tables():
+    pass
+
+def create_spells_database(spells):
+    load_dotenv()
+
+    DATABASE_URL = os.getenv("DATABASE_URL")
+
+    # Connect to PostgreSQL
+    conn = psycopg2.connect(DATABASE_URL)
+    cursor = conn.cursor()
+
+    # Create table if it doesn't exist 
+    # NOTE: change VSM to be bools in the spells class and add a materials section if there are material components (also maybe a cost section for mats)
+    cursor.execute("""
+        CREATE TABLE spells (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    school TEXT NOT NULL,
+    description TEXT NOT NULL,
+    higher_level TEXT,
+    level INT NOT NULL,
+    casting_time TEXT NOT NULL,
+    distance TEXT NOT NULL,
+    verbal BOOLEAN NOT NULL,
+    somatic BOOLEAN NOT NULL,
+    component BOOLEAN NOT NULL,
+    duration TEXT NOT NULL,
+    users TEXT[] 
+    );""")
+    conn.commit()
+    print("Connected to database!")
+create_spells_database([])
+# scrape_spells_brain()
