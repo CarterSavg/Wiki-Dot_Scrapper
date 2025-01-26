@@ -1,37 +1,38 @@
-version: '3.8'  # Specifies the Docker Compose version
+version: '3.8'
 
-services:  
-  db:  # This defines the PostgreSQL database service
-    image: postgres:latest  # Uses the latest official PostgreSQL image
-    container_name: dnd_spells_db  # Names the container
-    restart: always  # Ensures the database restarts if it crashes
-    environment:  # Sets environment variables for the PostgreSQL container
-      POSTGRES_USER: your_username
-      POSTGRES_PASSWORD: your_password
-      POSTGRES_DB: spells
+services:
+  db:
+    image: postgres:latest
+    container_name: dnd_spells_db
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
-      - "5432:5432"  # Exposes PostgreSQL on port 5432
+      - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data  # Creates a persistent volume for data storage
+      - postgres_data:/var/lib/postgresql/data
 
-  # scraper:  # This defines the Python scraper service
-  #   build: ./scraper  # Builds the container from the `scraper` directory
-  #   container_name: dnd_scraper  # Names the container
-  #   depends_on:
-  #     - db  # Ensures the database starts before the scraper
-  #   environment:
-  #     DATABASE_URL: postgresql://your_username:your_password@db:5432/spells  # Connection string for the scraper
-  
-  pgadmin:  # New service for pgAdmin
+  scraper:
+    build: ./scraper
+    container_name: dnd_scraper
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+
+  pgadmin:
     image: dpage/pgadmin4
     container_name: dnd_pgadmin
     restart: always
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@example.com  # Login email
-      PGADMIN_DEFAULT_PASSWORD: admin_password  # Login password
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
     ports:
-      - "5050:80"  # Maps pgAdmin web interface to localhost:5050
+      - "5050:80"
     depends_on:
       - db
+
 volumes:
-  postgres_data:  # Defines a persistent volume for PostgreSQL data
+  postgres_data:
