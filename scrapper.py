@@ -113,13 +113,10 @@ def scrape_spells_brain():
     links = scrape_spell_links()
     scrape_spell(links)
     
-def insert_spells():
+def populate_spells():
     pass  
 
-def create_spells_tables():
-    pass
-
-def create_spells_database(spells):
+def create_spells_tables(spells):
     load_dotenv()
 
     DATABASE_URL = os.getenv("DATABASE_URL")
@@ -132,6 +129,24 @@ def create_spells_database(spells):
     # NOTE: change VSM to be bools in the spells class and add a materials section if there are material components (also maybe a cost section for mats)
     cursor.execute("""
         CREATE TABLE spells (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    school TEXT NOT NULL,
+    description TEXT NOT NULL,
+    higher_level TEXT,
+    level INT NOT NULL,
+    casting_time TEXT NOT NULL,
+    distance TEXT NOT NULL,
+    verbal BOOLEAN NOT NULL,
+    somatic BOOLEAN NOT NULL,
+    component BOOLEAN NOT NULL,
+    duration TEXT NOT NULL,
+    users TEXT[] 
+    );""")
+    conn.commit()
+    # UA table
+    cursor.execute("""
+        CREATE TABLE UA (
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
     school TEXT NOT NULL,
