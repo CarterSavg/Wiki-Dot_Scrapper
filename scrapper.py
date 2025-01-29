@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 
 class Spell:
-    def __init__(self, name, school, desc, level, casting_time, distance, components, duration, users, higher_level = None):
+    def __init__(self, name, school, desc, level, casting_time, distance, components, duration, users, material, verbal, somatic, higher_level = None, mat_desc = None):
         self.name = name
         self.school = school
         self.desc = desc
@@ -14,11 +14,15 @@ class Spell:
         self.casting_time = casting_time
         self.distance = distance
         self.components = components
+        self.material = material
+        self.mat_desc = mat_desc
+        self.verbal = verbal
+        self.somatic = somatic
         self.duration = duration
         self.users = users 
     
     def __str__(self):
-        result = f"{self.name}\nLevel: {self.level}\nSchool: {self.school}\nCasting time: {self.casting_time}\nRange: {self.distance}\nDuration: {self.duration}\n\n{self.desc}\n"
+        result = f"{self.name}\nLevel: {self.level}\nV: {self.verbal} \tS: {self.somatic} \t M: {self.material} {self.mat_desc}\nSchool: {self.school}\nCasting time: {self.casting_time}\nRange: {self.distance}\nDuration: {self.duration}\n\n{self.desc}\n"
         if self.higher_level:
             result += f"At Higher Levels: {self.higher_level}\n"
         result += f"Spell Lists:{self.users}\n\n"
@@ -59,6 +63,7 @@ def scrape_spell_details(soup, level_num):
     content = soup.select("#page-content p")
     title = soup.select(".page-title")
     school = ""
+    mat_desc = None
     if level_num > 0:
         school = content[1].text.split(" ")[-1].capitalize()
     else:
@@ -76,14 +81,15 @@ def scrape_spell_details(soup, level_num):
         higher_levels = soup.find('strong', string=('At Higher Levels.', 'At Higher Levels:')).next_sibling.strip()
     except:
         pass
-
+    if "M" in components:
+        mat_desc = components.replace(")", "").split("(")[-1]
     desc = scrape_spell_description(soup, content, higher_levels)
-        
-    return Spell(title[0].text, school, desc, level_num, casting_time, range_, components, duration, users, higher_levels)
+    spell = Spell(title[0].text, school, desc, level_num, casting_time, range_, components, duration, users, "M" in components, "V" in components, "S" in components, higher_levels, mat_desc)
+    print(spell)
+    return spell
 
 def scrape_spell(links):
     #TODO:
-    # create database and populate it
     # Maybe don't scrape UA because its inconsistent
     spells = []
     '''Scrapes the individual spell information and puts it into an object before returning the list of objects'''
@@ -93,6 +99,7 @@ def scrape_spell(links):
             page = requests.get(url, timeout=10)
             soup = BeautifulSoup(page.content, 'html.parser')
             spells.append(scrape_spell_details(soup, level_num))
+    return spells
             
 
 def scrape_spell_links():
@@ -107,16 +114,17 @@ def scrape_spell_links():
         hrefs_arr.append(hrefs)
     return hrefs_arr
 
-def scrape_spells_brain():
-    '''Scrapes all of the spells from https://dnd5e.wikidot.com/spells and returns them as a list of objects'''
+def database_setup(spells):
+    create_spells_tables()
+    populate_spells(spells)
 
-    links = scrape_spell_links()
-    scrape_spell(links)
+def populate_spells(spells):
+    for spell in spells:
+        # TODO: create spell commit message
+        pass
     
-def populate_spells():
-    pass  
 
-def create_spells_tables(spells):
+def create_spells_tables():
     load_dotenv()
 
     DATABASE_URL = os.getenv("DATABASE_URL")
@@ -144,6 +152,7 @@ def create_spells_tables(spells):
     users TEXT[] 
     );""")
     conn.commit()
+    
     # UA table
     cursor.execute("""
         CREATE TABLE UA (
@@ -163,5 +172,16 @@ def create_spells_tables(spells):
     );""")
     conn.commit()
     print("Connected to database!")
-create_spells_database([])
-# scrape_spells_brain()
+
+def scrape_spells_brain():
+    '''Scrapes all of the spells from https://dnd5e.wikidot.com/spells creates the tables and populates them'''
+
+    links = scrape_spell_links()
+    spells = scrape_spell(links)
+    for spell in spells:
+        print(spell)
+    # database_setup(spells)
+    
+    
+
+scrape_spells_brain()
