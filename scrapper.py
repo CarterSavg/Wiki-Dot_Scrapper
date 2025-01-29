@@ -27,7 +27,7 @@ class Spell:
             result += f"At Higher Levels: {self.higher_level}\n"
         result += f"Spell Lists:{self.users}\n\n"
         return result 
-
+    
 
 def scrape_classes():
     '''Scrapes the classes from dnd5e wikidot using the classes.txt file as the extensions for each class'''
@@ -115,13 +115,31 @@ def scrape_spell_links():
     return hrefs_arr
 
 def database_setup(spells):
-    create_spells_tables()
-    populate_spells(spells)
+    cursor, conn = create_spells_tables()
+    populate_spells(cursor, conn, spells)
 
-def populate_spells(spells):
+def populate_spells(cursor, conn, spells):
     for spell in spells:
         # TODO: create spell commit message
-        pass
+        cursor.execute("""
+        INSERT INTO spells (
+        name,
+        school,
+        description,
+        higher_level,
+        level,
+        casting_time,
+        distance,
+        verbal,
+        somatic,
+        component,
+        material_desc
+        duration,
+        users
+        );
+        VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        """, spell.name, spell.school, spell.desc, spell.higher_level, spell.level, spell.casting_time, spell.distance, spell.verbal, spell.somatic, spell.material, spell.mat_desc, spell.duration, spell.users)
+        conn.commit()
     
 
 def create_spells_tables():
@@ -148,6 +166,7 @@ def create_spells_tables():
     verbal BOOLEAN NOT NULL,
     somatic BOOLEAN NOT NULL,
     component BOOLEAN NOT NULL,
+    material_desc TEXT,
     duration TEXT NOT NULL,
     users TEXT[] 
     );""")
@@ -166,21 +185,23 @@ def create_spells_tables():
     distance TEXT NOT NULL,
     verbal BOOLEAN NOT NULL,
     somatic BOOLEAN NOT NULL,
-    component BOOLEAN NOT NULL,
+    material BOOLEAN NOT NULL,
+    material_desc TEXT,
     duration TEXT NOT NULL,
     users TEXT[] 
     );""")
     conn.commit()
     print("Connected to database!")
+    return cursor, conn
 
 def scrape_spells_brain():
     '''Scrapes all of the spells from https://dnd5e.wikidot.com/spells creates the tables and populates them'''
 
     links = scrape_spell_links()
     spells = scrape_spell(links)
-    for spell in spells:
-        print(spell)
-    # database_setup(spells)
+    # for spell in spells:
+    #     print(spell)
+    database_setup(spells)
     
     
 
