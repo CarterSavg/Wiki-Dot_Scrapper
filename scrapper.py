@@ -1,6 +1,7 @@
 import os
 import psycopg2
 import requests
+import re
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 
@@ -70,8 +71,12 @@ def scrape_spell_details(soup, level_num):
         school = content[1].text.split(" ")[0].capitalize()
     casting_time = soup.find('strong', string='Casting Time:').next_sibling.strip()
     range_ = soup.find('strong', string='Range:').next_sibling.strip()
-    components = soup.find('strong', string='Components:').next_sibling.strip()
     duration = soup.find('strong', string='Duration:').next_sibling.strip()
+    components = soup.find('strong', string=re.compile(r'Components:?'))
+    if components:
+        components = components.next_sibling.strip()
+    else:
+        components = None
     try:
         users = content[-1].text.replace(" ", "").split(".")[1].split(",") #getting all users after the . in "Spell List."
     except IndexError: #Spell List has a : instead of a . 
