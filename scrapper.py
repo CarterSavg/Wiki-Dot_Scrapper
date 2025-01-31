@@ -204,8 +204,6 @@ def scrape_spells_brain():
 
     links = scrape_spell_links()
     spells = scrape_spell(links)
-    # for spell in spells:
-    #     print(spell)
     database_setup(spells)
     
     
