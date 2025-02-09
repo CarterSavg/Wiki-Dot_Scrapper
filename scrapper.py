@@ -126,6 +126,7 @@ def database_setup(spells):
 def populate_spells(cursor, conn, spells):
     for spell in spells:
         # TODO: create spell commit message
+        # Fix commit but (Maybe something to do with string types being converted to non strings like bools or passing in None)
         print(spell)
         print((spell.name, spell.school, spell.desc, spell.higher_level, spell.level, spell.casting_time, spell.distance, spell.verbal, spell.somatic, spell.material, spell.mat_desc, spell.duration, spell.users))
         cursor.execute("""
