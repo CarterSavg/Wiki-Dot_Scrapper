@@ -113,7 +113,7 @@ def scrape_spell_links():
     page = requests.get(url, timeout=10)
     soup = BeautifulSoup(page.content, 'html.parser')
     hrefs_arr = []
-    for level in range(0,1):    
+    for level in range(0,10):    
         links = soup.select(f"#wiki-tab-0-{level} tr a")
         hrefs = [link['href'] for link in links]
         hrefs_arr.append(hrefs)
@@ -143,7 +143,7 @@ def populate_spells(cursor, conn, spells):
         users
         );
         VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-        """, (spell.name, spell.school, spell.desc, spell.higher_level, spell.level, spell.casting_time, spell.distance, spell.verbal, spell.somatic, spell.material, spell.mat_desc, spell.duration, spell.users))
+        """, spell.name, spell.school, spell.desc, spell.higher_level, spell.level, spell.casting_time, spell.distance, spell.verbal, spell.somatic, spell.material, spell.mat_desc, spell.duration, spell.users)
         conn.commit()
     
 
