@@ -29,6 +29,8 @@ class Spell:
         result += f"Spell Lists:{self.users}\n\n"
         return result 
     
+    def sql_values(self):
+        return (self.name, self.school, self.desc, self.higher_level, self.level, self.casting_time, self.distance, str(self.verbal), str(self.somatic), str(self.material), str(self.mat_desc or 'NULL'), str(self.duration), self.users)
 
 def scrape_classes():
     '''Scrapes the classes from dnd5e wikidot using the classes.txt file as the extensions for each class'''
@@ -113,7 +115,7 @@ def scrape_spell_links():
     page = requests.get(url, timeout=10)
     soup = BeautifulSoup(page.content, 'html.parser')
     hrefs_arr = []
-    for level in range(0,1):    
+    for level in range(0,10):    
         links = soup.select(f"#wiki-tab-0-{level} tr a")
         hrefs = [link['href'] for link in links]
         hrefs_arr.append(hrefs)
@@ -141,12 +143,12 @@ def populate_spells(cursor, conn, spells):
         verbal,
         somatic,
         component,
-        material_desc
+        material_desc,
         duration,
         users
-        );
-        VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-        """, (spell.name, spell.school, spell.desc, spell.higher_level, spell.level, spell.casting_time, spell.distance, spell.verbal, spell.somatic, spell.material, spell.mat_desc, spell.duration, spell.users))
+        )
+        VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+        """, spell.sql_values())
         conn.commit()
     
 
