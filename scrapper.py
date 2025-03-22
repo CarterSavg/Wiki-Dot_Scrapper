@@ -147,7 +147,8 @@ def populate_spells(cursor, conn, spells):
         concentration,
         users
         )
-        VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+        VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        ON CONFLICT DO NOTHING;
         """, spell.sql_values())
         conn.commit()
     
@@ -165,7 +166,8 @@ def create_spells_tables():
     # NOTE: change VSM to be bools in the spells class and add a materials section if there are material components (also maybe a cost section for mats)
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS spells (
-    name PRIMARY KEY TEXT NOT NULL,
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL UNIQUE,
     school TEXT NOT NULL,
     description TEXT NOT NULL,
     higher_level TEXT,
@@ -185,7 +187,8 @@ def create_spells_tables():
     # UA table
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS UA (
-    name PRIMARY KEY TEXT NOT NULL,
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL UNIQUE,
     school TEXT NOT NULL,
     description TEXT NOT NULL,
     higher_level TEXT,
