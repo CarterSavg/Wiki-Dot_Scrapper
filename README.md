@@ -2,7 +2,7 @@
 This project scrappes the data from wikidot 5e and stores the data in a postgreSQL database.
 
 ## Technologies
-This project uses python as well as python to scrape the data and docker instance of postgreSQL as the database.
+This project uses python to scrape the data and a docker instance of postgreSQL as the database.
 
 ## Installation
 * Ensure [Python 3.8+](https://www.python.org/downloads/) is installed 
@@ -11,3 +11,6 @@ This project uses python as well as python to scrape the data and docker instanc
 ```sh
 pip install requests beautifulsoup4 psycopg2 dotenv
 ```
+
+## Usage
+In order to run this us `docker-compose up -d` and once the container is up run the python script `python scrapper.py`
