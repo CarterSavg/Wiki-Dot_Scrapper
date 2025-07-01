@@ -166,7 +166,6 @@ def create_spells_tables():
     # NOTE: change VSM to be bools in the spells class and add a materials section if there are material components (also maybe a cost section for mats)
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS spells (
-    id SERIAL PRIMARY KEY,
     name TEXT NOT NULL UNIQUE,
     school TEXT NOT NULL,
     description TEXT NOT NULL,
@@ -187,7 +186,6 @@ def create_spells_tables():
     # UA table
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS UA (
-    id SERIAL PRIMARY KEY,
     name TEXT NOT NULL UNIQUE,
     school TEXT NOT NULL,
     description TEXT NOT NULL,
