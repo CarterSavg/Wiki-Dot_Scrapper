@@ -16,8 +16,7 @@ def hello():
     data = cursor.fetchall()
     cursor.close()
     conn.close()
-    print('Hello, World!')
-    print(data)
+    # print(data)
     return data
 
 if __name__ == '__main__':
