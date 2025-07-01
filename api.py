@@ -17,7 +17,8 @@ def hello():
     cursor.close()
     conn.close()
     print('Hello, World!')
-    return render_template("test.html", data = data)
+    print(data)
+    return data
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='127.0.0.1', port=5000)
