@@ -4,12 +4,10 @@ import psycopg2.extras
 import os
 
 app = Flask(__name__)
+load_dotenv()
+DATABASE_URL = os.getenv("DATABASE_URL")
 
-
-@app.route('/')
-def hello():
-    load_dotenv()
-    DATABASE_URL = os.getenv("DATABASE_URL")
+def connect_to_db():
     conn = psycopg2.connect(DATABASE_URL)
     cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     cursor.execute('''SELECT * FROM spells''')
