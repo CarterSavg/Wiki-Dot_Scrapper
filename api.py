@@ -8,13 +8,18 @@ load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 def connect_to_db():
+    '''Connects to database using psycopg2 module and returns the connection object and the cursor object'''
     conn = psycopg2.connect(DATABASE_URL)
     cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     return conn, cursor
 
 def dis_db(conn, cursor):
-    cursor.close()
-    conn.close()
+    '''Disconnects from the connection and cursor objects'''
+    try:
+        cursor.close()
+        conn.close()
+    except:
+        pass
 
 #Routes
 @app.route('/')
