@@ -10,12 +10,28 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 def connect_to_db():
     conn = psycopg2.connect(DATABASE_URL)
     cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-    cursor.execute('''SELECT * FROM spells''')
-    data = cursor.fetchall()
+    return conn, cursor
+
+def dis_db(conn, cursor):
     cursor.close()
     conn.close()
+
+#Routes
+@app.route('/')
+def show_all_spells():
+    '''Returns all spells in the spells table'''
+    
+    conn, cursor = connect_to_db()
+    cursor.execute('''SELECT * FROM spells''')
+    data = cursor.fetchall()
+    dis_db(conn, cursor)
     # print(data)
     return data
+
+# @app.route('/spell/<spell_name>')
+# def get_spell():
+#     '''Returns all the spells like the spell in the parameters'''
+    
 
 if __name__ == '__main__':
     app.run(debug=True, host='127.0.0.1', port=5000)
