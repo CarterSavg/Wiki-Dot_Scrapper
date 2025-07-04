@@ -25,7 +25,6 @@ def dis_db(conn, cursor):
 @app.route('/')
 def show_all_spells():
     '''Returns all spells in the spells table'''
-    
     conn, cursor = connect_to_db()
     cursor.execute('''SELECT * FROM spells''')
     data = cursor.fetchall()
