@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, request
 from dotenv import load_dotenv
 import psycopg2.extras
 import os
@@ -33,10 +33,18 @@ def show_all_spells():
     # print(data)
     return data
 
-# @app.route('/spell/<spell_name>')
-# def get_spell():
-#     '''Returns all the spells like the spell in the parameters'''
-    
+@app.route('/spell/like/<spell_name>')
+def get_spell_like(spell_name):
+    '''Returns all the spells like the spell in the parameters'''
+    conn, cursor = connect_to_db()
+    cursor.execute(f"select * from spells where lower(name) like lower('%{spell_name}%')")
+    data = cursor.fetchall()
+    dis_db(conn, cursor)
+    return data
+
+@app.route('/spell/strict/<spell_name>')
+def get_spell_strict():
+    '''Returns spell in the parameter'''
 
 if __name__ == '__main__':
     app.run(debug=True, host='127.0.0.1', port=5000)
