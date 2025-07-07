@@ -44,7 +44,6 @@ def get_spell_like(spell_name):
 @app.route('/spell/strict/<spell_name>')
 def get_spell_strict(spell_name):
     '''Returns spell in the parameter'''
-    '''Returns all the spells like the spell in the parameters'''
     conn, cursor = connect_to_db()
     cursor.execute(f"select * from spells where lower(name) = lower('{spell_name}')")
     data = cursor.fetchall()
