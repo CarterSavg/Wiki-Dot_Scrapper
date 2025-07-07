@@ -36,7 +36,7 @@ def show_all_spells():
 def get_spell_like(spell_name):
     '''Returns all the spells like the spell in the parameters'''
     conn, cursor = connect_to_db()
-    cursor.execute(f"select * from spells where lower(name) like lower('%{spell_name}%')")
+    cursor.execute("select * from spells where lower(name) like lower(%s)", (f"%{spell_name}%",))
     data = cursor.fetchall()
     dis_db(conn, cursor)
     return data
@@ -45,7 +45,7 @@ def get_spell_like(spell_name):
 def get_spell_strict(spell_name):
     '''Returns spell in the parameter'''
     conn, cursor = connect_to_db()
-    cursor.execute(f"select * from spells where lower(name) = lower('{spell_name}')")
+    cursor.execute("select * from spells where lower(name) = lower(%s)", (f"{spell_name}",))
     data = cursor.fetchall()
     dis_db(conn, cursor)
     return data
