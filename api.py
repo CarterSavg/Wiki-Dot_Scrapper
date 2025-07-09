@@ -22,6 +22,17 @@ def dis_db(conn, cursor):
         pass
 
 #Routes
+
+'''
+TODO:
+END POINTS:
+- Action range, lower bound, upper bound, range
+- Range endpoint, lower bound, upper bound, range
+- All parameter
+- Count parameter
+- Class specific 
+- level range 
+'''
 @app.route('/')
 def show_all_spells():
     '''Returns all spells in the spells table'''
