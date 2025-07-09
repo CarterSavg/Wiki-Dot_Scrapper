@@ -61,5 +61,14 @@ def get_spell_strict(spell_name):
     dis_db(conn, cursor)
     return data
 
+@app.route('/spell/level/upper/<spell_level>')
+def get_spells_upper_level(spell_level):
+    '''Returns all the spells of the level provided or lower'''
+    conn, cursor = connect_to_db()
+    cursor.execute("select * from spells where level <= %s", (spell_level,))
+    data = cursor.fetchall()
+    dis_db(conn, cursor)
+    return data
+
 if __name__ == '__main__':
     app.run(debug=True, host='127.0.0.1', port=5000)
