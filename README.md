@@ -15,5 +15,10 @@ pip install requests beautifulsoup4 psycopg2 dotenv
 ## Usage
 In order to run this us `docker-compose up -d` and once the container is up run the python script `python scrapper.py`
 
+## Database
+Connect to the PGAdmin by using the login and email specified in the `.env` file. <br>
+Then in the connection tab enter the hostname as the service name in the docker-compose file (default db).
+
 ## API
-The default for the flask API is localhost `127.0.0.1` port 5000
+The default for the flask API is localhost `127.0.0.1` port 5000 <br>
+Specify multiple variables using the following notation `{Endpoint}?{Varibale}={value}&{Additional variable}={value}`
