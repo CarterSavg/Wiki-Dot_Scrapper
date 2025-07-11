@@ -70,5 +70,16 @@ def get_spells_upper_level(spell_level):
     dis_db(conn, cursor)
     return data
 
+@app.route('/spell/level/range')
+def get_spells_level_range():
+    '''Returns all the spells within the given range'''
+    conn, cursor = connect_to_db()
+    lower = request.args.get('lower', None)
+    higher = request.args.get('higher', None)
+    cursor.execute("select * from spells where level <= %s and level >= %s", (higher,lower))
+    data = cursor.fetchall()
+    dis_db(conn, cursor)
+    return data
+
 if __name__ == '__main__':
     app.run(debug=True, host='127.0.0.1', port=5000)
