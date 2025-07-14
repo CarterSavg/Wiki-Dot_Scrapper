@@ -1,5 +1,6 @@
 from flask import Flask, request
 from dotenv import load_dotenv
+from collections import defaultdict
 import psycopg2.extras
 import os
 
@@ -80,6 +81,42 @@ def get_spells_level_range():
     data = cursor.fetchall()
     dis_db(conn, cursor)
     return data
+
+@app.route('/spell/filter/all')
+def get_spells_all_filters():
+    '''Returns all the spells within the given parameters.\n
+    Input: 
+    * Level (Upper and lower)
+    * Casting time
+    * Name
+    * Range
+    * Level
+    * School
+    * Users'''
+    conn, cursor = connect_to_db()
+    input = request.args.to_dict()
+    # print(unzip(make_query(input)))
+    base_query, variables = make_query(input)
+    cursor.execute(base_query, variables)
+    data = cursor.fetchall()
+    dis_db(conn, cursor)
+    return data
+    return "hello"
+
+def make_query(input):
+    '''Returns a query with all of the inputs provided. Ignores NULL'''
+    base_query = "select * from spells where 1 = 1"
+    variables = tuple()
+    param_query_parts = defaultdict(lambda:None)
+    param_query_parts["lower"] = " and level >= %s"
+    
+    for param, value in input.items():
+        if param_query_parts[param]:
+            base_query += param_query_parts[param]
+            temp = list(variables)
+            temp.append(value)
+            variables = tuple(temp)
+    return base_query, variables
 
 if __name__ == '__main__':
     app.run(debug=True, host='127.0.0.1', port=5000)
