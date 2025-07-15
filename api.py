@@ -106,6 +106,7 @@ def make_query(input):
     variables = tuple()
     param_query_parts = defaultdict(lambda:None)
     param_query_parts["lower"] = " and level >= %s"
+    param_query_parts["higher"] = " and level <= %s"
     
     for param, value in input.items():
         if param_query_parts[param]:
