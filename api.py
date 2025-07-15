@@ -95,16 +95,13 @@ def get_spells_all_filters():
     * Users'''
     conn, cursor = connect_to_db()
     input = request.args.to_dict()
-    # print(unzip(make_query(input)))
-    base_query, variables = make_query(input)
-    cursor.execute(*make_query(input))
+    cursor.execute(*make_query(input)) # base_query, variables
     data = cursor.fetchall()
     dis_db(conn, cursor)
     return data
-    return "hello"
 
 def make_query(input):
-    '''Returns a query with all of the inputs provided. Ignores NULL'''
+    '''Returns a query with all of the inputs provided also returns a tuple of the variables. Ignores NULL'''
     base_query = "select * from spells where 1 = 1"
     variables = tuple()
     param_query_parts = defaultdict(lambda:None)
