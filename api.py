@@ -107,9 +107,12 @@ def make_query(input):
     param_query_parts = defaultdict(lambda:None)
     param_query_parts["lower"] = " and level >= %s"
     param_query_parts["higher"] = " and level <= %s"
+    param_query_parts["name"] = " and lower(name) like lower(%s)"
     
     for param, value in input.items():
         if param_query_parts[param]:
+            if param == "name":
+                value = f"%{value}%"
             base_query += param_query_parts[param]
             temp = list(variables)
             temp.append(value)
