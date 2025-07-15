@@ -9,7 +9,7 @@ This project uses python to scrape the data and a docker instance of postgreSQL 
 * Ensure [Docker](https://docs.docker.com/get-started/get-docker/) is installed
 * Python Libraries 
 ```sh
-pip install requests beautifulsoup4 psycopg2 dotenv
+pip install requests beautifulsoup4 psycopg2 dotenv flask
 ```
 
 ## Usage
