@@ -97,7 +97,7 @@ def get_spells_all_filters():
     input = request.args.to_dict()
     # print(unzip(make_query(input)))
     base_query, variables = make_query(input)
-    cursor.execute(base_query, variables)
+    cursor.execute(*make_query(input))
     data = cursor.fetchall()
     dis_db(conn, cursor)
     return data
