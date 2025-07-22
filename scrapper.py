@@ -2,11 +2,12 @@ import os
 import psycopg2
 import requests
 import re
+import time
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 
 class Spell:
-    def __init__(self, name, school, desc, level, casting_time, distance, components, duration, users, material, verbal, somatic, concentration, higher_level = None, mat_desc = None):
+    def __init__(self, name, school, desc, level, casting_time, distance, components, duration, users, material, verbal, somatic, concentration, higher_level = None, mat_desc = None, reaction_condition = None):
         self.name = name
         self.school = school
         self.desc = desc
@@ -22,16 +23,17 @@ class Spell:
         self.duration = duration
         self.users = users 
         self.concetration = concentration
+        self.reaction_condition = reaction_condition
     
     def __str__(self):
-        result = f"{self.name}\nLevel: {self.level}\nV: {self.verbal} \tS: {self.somatic} \t M: {self.material} {self.mat_desc}\nSchool: {self.school}\nCasting time: {self.casting_time}\nRange: {self.distance}\nConcentration: {self.concetration}\nDuration: {self.duration}\n\n{self.desc}\n"
+        result = f"{self.name}\nLevel: {self.level}\nV: {self.verbal} \tS: {self.somatic} \t M: {self.material} {self.mat_desc}\nSchool: {self.school}\nCasting time: {self.casting_time} Reaction Condition: {self.reaction_condition}\nRange: {self.distance}\nConcentration: {self.concetration}\nDuration: {self.duration}\n\n{self.desc}\n"
         if self.higher_level:
             result += f"At Higher Levels: {self.higher_level}\n"
         result += f"Spell Lists:{self.users}\n\n"
         return result 
     
     def sql_values(self):
-        return (self.name, self.school, self.desc, self.higher_level, self.level, self.casting_time, self.distance, str(self.verbal), str(self.somatic), str(self.material), str(self.mat_desc or 'NULL'), str(self.duration), str(self.concetration), self.users)
+        return (self.name, self.school, self.desc, self.higher_level, self.level, self.casting_time, self.distance, str(self.verbal), str(self.somatic), str(self.material), str(self.mat_desc or 'NULL'), str(self.duration), str(self.concetration), self.users, str(self.reaction_condition or 'NULL'))
 
 def scrape_classes():
     '''Scrapes the classes from dnd5e wikidot using the classes.txt file as the extensions for each class'''
@@ -67,12 +69,13 @@ def scrape_spell_details(soup, level_num):
     content = soup.select("#page-content p")
     title = soup.select(".page-title")
     school = ""
+    reaction_cond = None
     mat_desc = None
     if level_num > 0:
         school = content[1].text.split(" ")[-1].capitalize()
     else:
         school = content[1].text.split(" ")[0].capitalize()
-    casting_time = soup.find('strong', string='Casting Time:').next_sibling.strip()
+    casting_time = soup.find('strong', string='Casting Time:').next_sibling.strip().split('1 ')[1]
     range_ = soup.find('strong', string='Range:').next_sibling.strip()
     duration = soup.find('strong', string='Duration:').next_sibling.strip()
     concentration = 'Concentration' in duration
@@ -92,8 +95,11 @@ def scrape_spell_details(soup, level_num):
         pass
     if "M" in components:
         mat_desc = components.replace(")", "").split("(")[-1]
+    if "reaction" in casting_time.lower():
+        reaction_cond = casting_time.lower().split('reaction, ')[1]
+        casting_time = casting_time.split(' ')[0]
     desc = scrape_spell_description(soup, content, higher_levels)
-    spell = Spell(title[0].text, school, desc, level_num, casting_time, range_, components, duration, users, "M" in components, "V" in components, "S" in components, concentration, higher_levels, mat_desc)
+    spell = Spell(title[0].text, school, desc, level_num, casting_time, range_, components, duration, users, "M" in components, "V" in components, "S" in components, concentration, higher_levels, mat_desc, reaction_cond)
     print(spell)
     return spell
 
@@ -129,6 +135,7 @@ def database_setup(spells):
 
 def populate_spells(cursor, conn, spells):
     for spell in spells:
+        time.sleep(1) # Waiting to not get rate limited or IP Banned
         # print((spell.name, spell.school, spell.desc, spell.higher_level, spell.level, spell.casting_time, spell.distance, spell.verbal, spell.somatic, spell.material, spell.mat_desc, spell.duration, spell.users))
         cursor.execute("""
         INSERT INTO spells (
@@ -145,9 +152,10 @@ def populate_spells(cursor, conn, spells):
         material_desc,
         duration,
         concentration,
-        users
+        users,
+        reaction_condition
         )
-        VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         ON CONFLICT DO NOTHING;
         """, spell.sql_values())
         conn.commit()
@@ -172,6 +180,7 @@ def create_spells_tables():
     higher_level TEXT,
     level INT NOT NULL,
     casting_time TEXT NOT NULL,
+    reaction_condition TEXT,
     distance TEXT NOT NULL,
     verbal BOOLEAN NOT NULL,
     somatic BOOLEAN NOT NULL,
@@ -192,6 +201,7 @@ def create_spells_tables():
     higher_level TEXT,
     level INT NOT NULL,
     casting_time TEXT NOT NULL,
+    reaction_condition TEXT,
     distance TEXT NOT NULL,
     verbal BOOLEAN NOT NULL,
     somatic BOOLEAN NOT NULL,
