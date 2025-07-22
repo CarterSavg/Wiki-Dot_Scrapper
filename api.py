@@ -85,11 +85,20 @@ def get_spells_level_range():
 @app.route('/spell/time/<casting_time>')
 def get_spells_casting_time(casting_time):
     '''Returns all the spells with the given casting time'''
+    values = (f"{casting_time}%",)
+    if 'action' not in casting_time.lower():
+        values = (f"%{casting_time}%",)
     conn, cursor = connect_to_db()
-    cursor.execute("select * from spells where casting_time like %s", (f"{casting_time}%",))
+    cursor.execute("select * from spells where casting_time like %s", values)
     data = cursor.fetchall()
     dis_db(conn, cursor)
     return data
+
+@app.route('/spell/time/<casting_time>')
+def get_spells_casting_time_range(casting_time):
+    '''Returns all the spells with the given casting time range'''
+    #TODO: Make ordered list for action times have a start and end of the list and add them the query
+    return "temp"
 
 @app.route('/spell/filter/all')
 def get_spells_all_filters():
