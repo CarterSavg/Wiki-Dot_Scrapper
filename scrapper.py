@@ -110,7 +110,7 @@ def scrape_spell(links):
     '''Scrapes the individual spell information and puts it into an object before returning the list of objects'''
     for level_num, level in enumerate(links):
         for spell in level:
-            time.sleep(1) # Waiting to not get rate limited or IP Banned
+            time.sleep(0.5) # Waiting to not get rate limited or IP Banned
             url = f'https://dnd5e.wikidot.com{spell}'
             page = requests.get(url, timeout=10)
             soup = BeautifulSoup(page.content, 'html.parser')
