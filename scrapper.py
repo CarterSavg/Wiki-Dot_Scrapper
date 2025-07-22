@@ -75,7 +75,7 @@ def scrape_spell_details(soup, level_num):
         school = content[1].text.split(" ")[-1].capitalize()
     else:
         school = content[1].text.split(" ")[0].capitalize()
-    casting_time = soup.find('strong', string='Casting Time:').next_sibling.strip().split('1 ')[1]
+    casting_time = soup.find('strong', string='Casting Time:').next_sibling.strip().split('1 ')[-1]
     range_ = soup.find('strong', string='Range:').next_sibling.strip()
     duration = soup.find('strong', string='Duration:').next_sibling.strip()
     concentration = 'Concentration' in duration
