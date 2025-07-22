@@ -86,7 +86,7 @@ def get_spells_level_range():
 def get_spells_casting_time(casting_time):
     '''Returns all the spells with the given casting time'''
     conn, cursor = connect_to_db()
-    cursor.execute("select * from spells where casting_time like %s", (f"1 {casting_time}",))
+    cursor.execute("select * from spells where casting_time like %s", (f"{casting_time}%",))
     data = cursor.fetchall()
     dis_db(conn, cursor)
     return data
