@@ -94,6 +94,16 @@ def get_spells_casting_time(casting_time):
     dis_db(conn, cursor)
     return data
 
+@app.route('/spell/user/<caster>')
+def get_spells_user_casts(caster):
+    '''Returns all the spells that the specified caster is able to cast'''
+    values = (f"%{caster}%",)
+    conn, cursor = connect_to_db()
+    cursor.execute("select * from spells where array_to_string(users, ',') ilike %s", values)
+    data = cursor.fetchall()
+    dis_db(conn, cursor)
+    return data
+
 @app.route('/spell/time/<casting_time>')
 def get_spells_casting_time_range(casting_time):
     '''Returns all the spells with the given casting time range'''
