@@ -126,6 +126,9 @@ def make_query(input):
     param_query_parts["lower"] = " and level >= %s"
     param_query_parts["higher"] = " and level <= %s"
     param_query_parts["name"] = " and lower(name) like lower(%s)"
+    param_query_parts["verbal"] = " and verbal = %s"
+    param_query_parts["somatic"] = " and somatic = %s"
+    param_query_parts["component"] = " and component = %s"
     
     for param, value in input.items():
         if param_query_parts[param]:
