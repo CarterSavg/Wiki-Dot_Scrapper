@@ -107,22 +107,12 @@ def get_spells_user_casts(caster):
 @app.route('/spell/school/<school>')
 def get_spells_school(school):
     '''Returns all the spells that are in the specific school.\nCan have multiple schools by comma delimiting them'''
-    values = (make_into_list(school),)
+    values = (tuple(school.lower().split(',')),)
     conn, cursor = connect_to_db()
     cursor.execute("select * from spells where lower(school) in %s", values)
     data = cursor.fetchall()
     dis_db(conn, cursor)
     return data
-
-def make_into_list(values):
-    '''Inputs a list of values that are comma delimited. Returns the values as a tuple.
-    Example:\n
-    Input = "A,B,C"
-    Output = "\'A\',\'B\',\'C\'"'''
-    # output = '(' + ' , '.join(f"'{word.lower()}'" for word in values.split(",")) + ')'
-    output = tuple(values.lower().split(','))
-    return output
-    
 
 @app.route('/spell/time/<casting_time>')
 def get_spells_casting_time_range(casting_time):
