@@ -130,6 +130,10 @@ def get_spells_all_filters():
 
 def make_query(input):
     '''Returns a query with all of the inputs provided also returns a tuple of the variables. Ignores NULL'''
+    # TODO:
+    # School (Maybe let that be a list)
+    # Casting time
+    # Users (Maybe let that also be a list)
     base_query = "select * from spells where 1 = 1"
     variables = tuple()
     param_query_parts = defaultdict(lambda:None)
