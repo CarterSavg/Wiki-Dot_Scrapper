@@ -104,6 +104,16 @@ def get_spells_user_casts(caster):
     dis_db(conn, cursor)
     return data
 
+@app.route('/spell/school/<school>')
+def get_spells_school(school):
+    '''Returns all the spells that the specified caster is able to cast'''
+    values = (f"{school}",)
+    conn, cursor = connect_to_db()
+    cursor.execute("select * from spells where lower(school) = lower(%s)", values)
+    data = cursor.fetchall()
+    dis_db(conn, cursor)
+    return data
+
 @app.route('/spell/time/<casting_time>')
 def get_spells_casting_time_range(casting_time):
     '''Returns all the spells with the given casting time range'''
