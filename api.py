@@ -114,12 +114,9 @@ def get_spells_school(school):
     dis_db(conn, cursor)
     return data
 
-@app.route('/spell/time/range/<casting_time>')
-def get_spells_casting_time_range(casting_time):
-    '''Returns all the spells with the given casting time range.\n
+def setup_casting_time_range(casting_time):
+    '''Returns the query with all of the casting times appended to it within the specified range\n
     Input: A set of comma delimited values the first value being the start and the second being the end.'''
-    #TODO: Make ordered list for action times have a start and end of the list and add them the query
-    # ORDER: reaction, BA, action, minute, minutes, hour, hours
     first = True
     query = "select * from spells where 1 = 1 and ("
     casting_speeds = ["reaction", "ba", "action", "minute", "minutes", "hour", "hours"]
@@ -131,11 +128,10 @@ def get_spells_casting_time_range(casting_time):
     casting_speeds_parts["minutes"] = " lower(casting_time) like '% minutes'"
     casting_speeds_parts["hour"] = " lower(casting_time) = 'hour'"
     casting_speeds_parts["hours"] = r" lower(casting_time) like '% hours'"
-    
     start = casting_time.lower().split(',')[0]
     end = casting_time.lower().split(',')[-1]
     if not (start in casting_speeds and end in casting_speeds):
-        return 'Invalid casting time range', 400
+        return None
     
     for time in casting_speeds[casting_speeds.index(start):casting_speeds.index(end) + 1]:
         if first:
@@ -144,6 +140,17 @@ def get_spells_casting_time_range(casting_time):
         else: 
             query = query + ' or ' + casting_speeds_parts[time]
     query = query + ")"
+    return query
+
+@app.route('/spell/time/range/<casting_time>')
+def get_spells_casting_time_range(casting_time):
+    '''Returns all the spells with the given casting time range.\n
+    Input: A set of comma delimited values the first value being the start and the second being the end.\n
+    ORDER: reaction, BA, action, minute, minutes, hour, hours'''
+    
+    query = setup_casting_time_range(casting_time)
+    if not query:
+        return 'Invalid casting time range', 400
     conn, cursor = connect_to_db()
     cursor.execute(query)
     data = cursor.fetchall()
