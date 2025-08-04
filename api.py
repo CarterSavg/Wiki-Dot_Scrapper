@@ -138,13 +138,11 @@ def get_spells_all_filters():
     dis_db(conn, cursor)
     return data
 
-def make_query(input):
-    '''Returns a query with all of the inputs provided also returns a tuple of the variables. Ignores NULL'''
-    # TODO:
-    # Casting time
-    # Users (Maybe let that also be a list)
+def setup_master_query():
+    '''Returns the base query, variable tuple and, a defualt dict with all of the where sections for each enpoint option'''
     base_query = "select * from spells where 1 = 1"
     variables = tuple()
+    
     param_query_parts = defaultdict(lambda:None)
     param_query_parts["lower"] = " and level >= %s"
     param_query_parts["higher"] = " and level <= %s"
@@ -153,6 +151,16 @@ def make_query(input):
     param_query_parts["somatic"] = " and somatic = %s"
     param_query_parts["component"] = " and component = %s"
     param_query_parts["school"] = " and lower(school) in %s"
+    
+    return base_query, variables, param_query_parts
+
+def make_query(input):
+    '''Returns a query with all of the inputs provided also returns a tuple of the variables. Ignores NULL'''
+    # TODO:
+    # Casting time
+    # Users (Maybe let that also be a list)
+    
+    base_query, variables, param_query_parts = setup_master_query()
     
     for param, value in input.items():
         if param_query_parts[param]:
