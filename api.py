@@ -153,11 +153,14 @@ def make_query(input):
     param_query_parts["verbal"] = " and verbal = %s"
     param_query_parts["somatic"] = " and somatic = %s"
     param_query_parts["component"] = " and component = %s"
+    param_query_parts["school"] = " and lower(school) in %s"
     
     for param, value in input.items():
         if param_query_parts[param]:
             if param == "name":
                 value = f"%{value}%"
+            elif param == "school":
+                value = tuple(value.lower().split(','))
             base_query += param_query_parts[param]
             temp = list(variables)
             temp.append(value)
