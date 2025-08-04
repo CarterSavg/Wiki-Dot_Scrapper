@@ -159,6 +159,7 @@ def make_query(input):
     # TODO:
     # Casting time
     # Range
+    # Duration ?
     # Users (Maybe let that also be a list)
     
     base_query, variables, param_query_parts = setup_master_query()
