@@ -158,6 +158,7 @@ def make_query(input):
     '''Returns a query with all of the inputs provided also returns a tuple of the variables. Ignores NULL'''
     # TODO:
     # Casting time
+    # Range
     # Users (Maybe let that also be a list)
     
     base_query, variables, param_query_parts = setup_master_query()
