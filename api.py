@@ -73,7 +73,7 @@ def get_spells_upper_level(spell_level):
 
 @app.route('/spell/level/range')
 def get_spells_level_range():
-    '''Returns all the spells within the given range'''
+    '''Returns all the spells within the given level range'''
     conn, cursor = connect_to_db()
     lower = request.args.get('lower', None)
     higher = request.args.get('higher', None)
