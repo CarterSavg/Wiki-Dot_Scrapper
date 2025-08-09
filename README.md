@@ -33,6 +33,4 @@ Specify multiple variables using the following notation `{Endpoint}?{Varibale}={
 `/spell/time/range/<casting_time>` Returns all the spells with the given casting time range. <br>
 `/spell/user/<caster>` Returns all the spells that the specified caster is able to cast. <br>
 `/spell/school/<school>` Returns all the spells that are in the specific school. (Comma delimited) <br>
-`/spell/duration/<duration>` TODO <br>
-`/spell/range/<range>` TODO <br>
 `/spell/filter/all` Returns all the spells within the given parameters. Input: Level (Upper and lower), Casting time, Name, Level, School, Users
