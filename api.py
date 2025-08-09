@@ -8,6 +8,10 @@ app = Flask(__name__)
 load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL")
 
+class InvalidCastingRange(Exception):
+    '''Custom exception for casting range issues'''
+    pass
+
 def connect_to_db():
     '''Connects to database using psycopg2 module and returns the connection object and the cursor object'''
     conn = psycopg2.connect(DATABASE_URL)
@@ -171,14 +175,18 @@ def get_spells_all_filters():
     * Users'''
     conn, cursor = connect_to_db()
     input = request.args.to_dict()
-    cursor.execute(*make_query(input)) # base_query, variables
+    try:
+        cursor.execute(*make_query(input)) # base_query, variables
+    except InvalidCastingRange as e:
+        dis_db(conn, cursor)
+        return f"ERROR: {e}", 400
     data = cursor.fetchall()
     dis_db(conn, cursor)
     return data
 
 def setup_master_query():
     '''Returns the base query, variable tuple and, a defualt dict with all of the where sections for each enpoint option'''
-    base_query = "select * from spells where 1 = 1"
+    base_query = "select * from spells where 1 = 1 "
     variables = tuple()
     
     param_query_parts = defaultdict(lambda:None)
@@ -190,6 +198,7 @@ def setup_master_query():
     param_query_parts["component"] = " and component = %s"
     param_query_parts["school"] = " and lower(school) in %s"
     param_query_parts["users"] = " and array_to_string(users, ',') ilike %s"
+    param_query_parts["casting"] = setup_casting_time_range
     
     return base_query, variables, param_query_parts
 
@@ -202,14 +211,23 @@ def make_query(input):
     
     for param, value in input.items():
         if param_query_parts[param]:
-            if param == "name":
+            if param == "name" or param == "users":
                 value = f"%{value}%"
             elif param == "school":
                 value = tuple(value.lower().split(','))
-            base_query += param_query_parts[param]
-            temp = list(variables)
-            temp.append(value)
-            variables = tuple(temp)
+            elif param == "casting":
+                print(value)
+                casting_query_part = param_query_parts[param](value)
+                print(casting_query_part)
+                if casting_query_part is None:
+                    raise InvalidCastingRange("Invalid casting time range")
+                base_query += casting_query_part
+            else:
+                temp = list(variables)
+                temp.append(value)
+                variables = tuple(temp)
+                base_query += param_query_parts[param]
+        print(base_query)
     return base_query, variables
 
 if __name__ == '__main__':
