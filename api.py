@@ -118,7 +118,7 @@ def setup_casting_time_range(casting_time):
     '''Returns the query with all of the casting times appended to it within the specified range\n
     Input: A set of comma delimited values the first value being the start and the second being the end.'''
     first = True
-    query = "select * from spells where 1 = 1 and ("
+    query = "and ("
     casting_speeds = ["reaction", "ba", "action", "minute", "minutes", "hour", "hours"]
     casting_speeds_parts = defaultdict(lambda:None)
     casting_speeds_parts["reaction"] = " lower(casting_time) = 'reaction'"
@@ -147,8 +147,8 @@ def get_spells_casting_time_range(casting_time):
     '''Returns all the spells with the given casting time range.\n
     Input: A set of comma delimited values the first value being the start and the second being the end.\n
     ORDER: reaction, BA, action, minute, minutes, hour, hours'''
-    
-    query = setup_casting_time_range(casting_time)
+    query = "select * from spells where 1 = 1 "
+    query = query + setup_casting_time_range(casting_time)
     if not query:
         return 'Invalid casting time range', 400
     conn, cursor = connect_to_db()
@@ -189,6 +189,7 @@ def setup_master_query():
     param_query_parts["somatic"] = " and somatic = %s"
     param_query_parts["component"] = " and component = %s"
     param_query_parts["school"] = " and lower(school) in %s"
+    param_query_parts["users"] = " and array_to_string(users, ',') ilike %s"
     
     return base_query, variables, param_query_parts
 
@@ -196,9 +197,6 @@ def make_query(input):
     '''Returns a query with all of the inputs provided also returns a tuple of the variables. Ignores NULL'''
     # TODO:
     # Casting time
-    # Range
-    # Duration ?
-    # Users (Maybe let that also be a list)
     
     base_query, variables, param_query_parts = setup_master_query()
     
