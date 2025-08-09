@@ -45,7 +45,6 @@ def show_all_spells():
     cursor.execute('''SELECT * FROM spells''')
     data = cursor.fetchall()
     dis_db(conn, cursor)
-    # print(data)
     return data
 
 @app.route('/spell/like/<spell_name>')
@@ -204,8 +203,6 @@ def setup_master_query():
 
 def make_query(input):
     '''Returns a query with all of the inputs provided also returns a tuple of the variables. Ignores NULL'''
-    # TODO:
-    # Casting time
     
     base_query, variables, param_query_parts = setup_master_query()
     
@@ -216,9 +213,7 @@ def make_query(input):
             elif param == "school":
                 value = tuple(value.lower().split(','))
             elif param == "casting":
-                print(value)
                 casting_query_part = param_query_parts[param](value)
-                print(casting_query_part)
                 if casting_query_part is None:
                     raise InvalidCastingRange("Invalid casting time range")
                 base_query += casting_query_part
@@ -227,7 +222,6 @@ def make_query(input):
                 temp.append(value)
                 variables = tuple(temp)
                 base_query += param_query_parts[param]
-        print(base_query)
     return base_query, variables
 
 if __name__ == '__main__':
