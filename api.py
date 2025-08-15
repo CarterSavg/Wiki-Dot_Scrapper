@@ -86,12 +86,17 @@ def get_spells_casting_time(casting_time):
     dis_db(conn, cursor)
     return data
 
-@app.route('/spell/user/<caster>')
-def get_spells_user_casts(caster):
-    '''Returns all the spells that the specified caster is able to cast'''
-    values = (f"%{caster}%",)
+@app.route('/spell/user/<casters>')
+def get_spells_user_casts(casters):
+    '''Returns all the spells that the specified caster is able to cast comma delimit for multiple casters'''
+    caster_list = casters.split(',')
+    query = "select * from spells where array_to_string(users, ',') ilike %s"
+    for caster_num, caster in enumerate(caster_list):
+        caster_list[caster_num] = f"%{caster}%"
+        if caster_num > 0 :
+            query += " or array_to_string(users, ',') ilike %s"
     conn, cursor = connect_to_db()
-    cursor.execute("select * from spells where array_to_string(users, ',') ilike %s", values)
+    cursor.execute(query, tuple(caster_list))
     data = cursor.fetchall()
     dis_db(conn, cursor)
     return data
