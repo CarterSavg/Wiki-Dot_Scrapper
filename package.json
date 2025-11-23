@@ -1,0 +1,20 @@
+{
+  "name": "wiki-dot_scrapper",
+  "version": "1.0.0",
+  "description": "This project scrappes the data from wikidot 5e and stores the data in a postgreSQL database.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CarterSavg/Wiki-Dot_Scrapper.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CarterSavg/Wiki-Dot_Scrapper/issues"
+  },
+  "homepage": "https://github.com/CarterSavg/Wiki-Dot_Scrapper#readme"
+}
