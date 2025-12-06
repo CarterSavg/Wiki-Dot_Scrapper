@@ -13,7 +13,7 @@ pip install requests beautifulsoup4 psycopg2 dotenv flask
 ```
 
 ## Usage
-In order to run this us `docker-compose up -d` and once the container is up run the python script `python scrapper.py`
+In order to run this us `docker-compose up -d` and once the container is up run the python script `python scrapper.py` then to run the api run `python api.py`
 
 ## Database
 Connect to the PGAdmin by using the login and email specified in the `.env` file. <br>
