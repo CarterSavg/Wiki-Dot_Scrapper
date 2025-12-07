@@ -1,8 +1,8 @@
 ## About This Project
-This project scrappes the data from wikidot 5e and stores the data in a postgreSQL database.
+This project scrappes the data from wikidot 5e and stores the data in a postgreSQL database. <br>This data can then be viewed in a webpage.
 
 ## Technologies
-This project uses python to scrape the data and a docker instance of postgreSQL as the database.
+This project uses python to scrape the data and a docker instance of postgreSQL as the database. <Br>This project then uses node and EJS to render the webpage.
 
 ## Installation
 * Ensure [Python 3.8+](https://www.python.org/downloads/) is installed 
@@ -13,7 +13,7 @@ pip install requests beautifulsoup4 psycopg2 dotenv flask
 ```
 
 ## Usage
-In order to run this us `docker-compose up -d` and once the container is up run the python script `python scrapper.py`
+In order to run this us `docker-compose up -d` and once the container is up run the python script `python scrapper.py` then to run the api run `python api.py`
 
 ## Database
 Connect to the PGAdmin by using the login and email specified in the `.env` file. <br>
@@ -34,3 +34,8 @@ Specify multiple variables using the following notation `{Endpoint}?{Varibale}={
 `/spell/user/<caster>` Returns all the spells that the specified caster is able to cast. <br>
 `/spell/school/<school>` Returns all the spells that are in the specific school. (Comma delimited) <br>
 `/spell/filter/all` Returns all the spells within the given parameters. Input: Level (Upper and lower), Casting time, Name, Level, School, Users
+
+## Website
+
+## Usage
+In order to run the webpage run `docker-compose up -d` and once the container is up run `node index.js`
