@@ -14,6 +14,11 @@
                 <p class="spell-name"><%= spell.name %></p>
                 <p class="casting-time">Casting Time: <%= spell.casting_time %></p>
                 <p class="spell-description"><%= spell.description %></p>
+                <p class="spell-component">
+                    <%= spell.verbal ? "V" : "" %>
+                    <%= spell.somatic ? "S" : "" %>
+                    <%= spell.component ? "M" : "" %>
+                </p>
                 <ul>
                     <% for (const user of spell.users){ %>
                         <li><%= user %></li>
