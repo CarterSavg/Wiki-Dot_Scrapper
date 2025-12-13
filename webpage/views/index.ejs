@@ -11,7 +11,14 @@
     <% if (locals.spells) { %>
         <% for (const spell of spells) { %>
             <div class="spell-card">
-                <%= spell.name %><br>
+                <p class="spell-name"><%= spell.name %></p>
+                <p class="casting-time">Casting Time: <%= spell.casting_time %></p>
+                <p class="spell-description"><%= spell.description %></p>
+                <ul>
+                    <% for (const user of spell.users){ %>
+                        <li><%= user %></li>
+                    <% } %>
+                </ul>
             </div>
         <% } %>
     <% } %></br>
