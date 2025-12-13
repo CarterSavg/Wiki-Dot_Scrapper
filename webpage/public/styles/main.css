@@ -8,3 +8,10 @@
     min-width: 2em;
     max-width: 15em;
 }
+
+.material-desc {
+    display: inline-block;
+    min-height: min-content;
+    margin-block-start: auto;
+    margin-block-end: auto;
+}

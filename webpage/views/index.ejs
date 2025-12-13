@@ -19,6 +19,7 @@
                     <%= spell.somatic ? "S" : "" %>
                     <%= spell.component ? "M" : "" %>
                 </p>
+                <p class="material-desc"><%= spell.component ? "Material: " + spell.material_desc : null%></p>
                 <ul>
                     <% for (const user of spell.users){ %>
                         <li><%= user %></li>
