@@ -13,7 +13,9 @@
             <div class="spell-card">
                 <p class="spell-name"><%= spell.name %></p>
                 <p class="casting-time">Casting Time: <%= spell.casting_time %></p>
+                <p class="spell-distance">Distance: <%= spell.distance %></p>
                 <p class="spell-description"><%= spell.description %></p>
+                <p class="spell-higher"><%= spell.higher_level %></p>
                 <p class="spell-component">
                     <%= spell.verbal ? "V" : "" %>
                     <%= spell.somatic ? "S" : "" %>

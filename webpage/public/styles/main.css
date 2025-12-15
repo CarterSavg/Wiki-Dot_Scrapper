@@ -15,3 +15,10 @@
     margin-block-start: auto;
     margin-block-end: auto;
 }
+
+.spell-higher {
+    display: inline-block;
+    min-height: min-content;
+    margin-block-start: auto;
+    margin-block-end: auto;
+}
