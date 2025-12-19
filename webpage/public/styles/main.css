@@ -22,3 +22,8 @@
     margin-block-start: auto;
     margin-block-end: auto;
 }
+
+.main-body {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+}
