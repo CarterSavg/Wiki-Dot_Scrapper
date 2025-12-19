@@ -1,36 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/styles/main.css">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/styles/main.css">
+  <title>Document</title>
 </head>
+
 <body>
-    <p>Helloworld</p>
-    <% if (locals.spells) { %>
-        <% for (const spell of spells) { %>
-            <div class="spell-card">
-                <p class="spell-name"><%= spell.name %></p>
-                <p class="casting-time">Casting Time: <%= spell.casting_time %></p>
-                <p class="spell-distance">Distance: <%= spell.distance %></p>
-                <p class="spell-school"><%= spell.school %></p>
-                <p class="spell-level"><%= spell.level === 0 ? "Cantrip" : "Level: " + spell.level%></p>
-                <p class="spell-description"><%= spell.description %></p>
-                <p class="spell-higher"><%= spell.higher_level %></p>
-                <p class="spell-component">
-                    <%= spell.verbal ? "V" : "" %>
-                    <%= spell.somatic ? "S" : "" %>
-                    <%= spell.component ? "M" : "" %>
-                </p>
-                <p class="material-desc"><%= spell.component ? "Material: " + spell.material_desc : null%></p>
-                <ul>
-                    <% for (const user of spell.users){ %>
-                        <li><%= user %></li>
-                    <% } %>
-                </ul>
-            </div>
-        <% } %>
-    <% } %></br>
+  <p>Helloworld</p>
+  <div class="header"></div>
+  <div class="main-body">
+    <div class="search-section"></div>
+    <div class="card-section">
+      <% if (locals.spells) { %>
+      <% for (const spell of spells) { %>
+      <div class="spell-card">
+        <p class="spell-name"><%= spell.name %></p>
+        <p class="casting-time">Casting Time: <%= spell.casting_time %></p>
+        <p class="spell-distance">Distance: <%= spell.distance %></p>
+        <p class="spell-school"><%= spell.school %></p>
+        <p class="spell-level"><%= spell.level === 0 ? "Cantrip" : "Level: " + spell.level%></p>
+        <p class="spell-description"><%= spell.description %></p>
+        <p class="spell-higher"><%= spell.higher_level %></p>
+        <p class="spell-component">
+          <%= spell.verbal ? "V" : "" %>
+          <%= spell.somatic ? "S" : "" %>
+          <%= spell.component ? "M" : "" %>
+        </p>
+        <p class="material-desc"><%= spell.component ? "Material: " + spell.material_desc : null%></p>
+        <ul>
+          <% for (const user of spell.users){ %>
+          <li><%= user %></li>
+          <% } %>
+        </ul>
+      </div>
+      <% } %>
+      <% } %></br>
+    </div>
+  </div>
+  <div class="footer"></div>
 </body>
+
 </html>
