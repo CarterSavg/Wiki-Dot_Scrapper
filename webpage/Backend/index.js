@@ -13,9 +13,9 @@ app.get('/', async (req, res) => {
         console.log(result)
         res.render('index.ejs', {spells: result})
     } catch (error) {
-        // res.render("index.ejs", {
-        // error: error.message,
-        // });
+        res.render("index.ejs", {
+        error: error.message,
+        });
     }
     
 })
