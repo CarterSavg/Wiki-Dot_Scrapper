@@ -1,6 +1,7 @@
 import axios from "axios";
 import express from "express";
-import cors from "cors"
+import cors from "cors";
+
 const app = express()
 const port = 3000
 
@@ -15,9 +16,9 @@ app.get('/', async (req, res) => {
         // res.render('index.ejs', {spells: result})
         res.json(result)
     } catch (error) {
-        res.render("index.ejs", {
-        error: error.message,
-        });
+        console.log(error)
+        res.status(500)
+        res.json(error)
     }
     
 })
