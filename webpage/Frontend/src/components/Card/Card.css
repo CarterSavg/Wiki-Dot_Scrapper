@@ -1,0 +1,24 @@
+.spell-card{
+    display: inline-grid;
+    margin: 2px;
+    padding: 2px 3px 0px 3px;
+    border: 2px solid black;
+    border-radius: 1em;
+    min-height: 3em;
+    min-width: 2em;
+    max-width: 15em;
+}
+
+.material-desc {
+    display: inline-block;
+    min-height: min-content;
+    margin-block-start: auto;
+    margin-block-end: auto;
+}
+
+.spell-higher {
+    display: inline-block;
+    min-height: min-content;
+    margin-block-start: auto;
+    margin-block-end: auto;
+}
