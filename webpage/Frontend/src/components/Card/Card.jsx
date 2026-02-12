@@ -20,7 +20,7 @@ function Card(props) {
                 <ul>
                     { props.users.map((user, index) => (
                         <li key={index}>{user}</li>
-                    ))};
+                    ))}
                         
                 </ul>
             </div>

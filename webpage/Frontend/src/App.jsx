@@ -7,7 +7,8 @@ import Card from './components/Card/Card'
 // }
 
 function App() {
-  const spells = fetch("http://localhost:3000/").then(res => res.json()).then(json => console.log(json))
+  const spells =  fetch("http://localhost:3000/").then(res => res.json()).then(json => console.log(json))
+  console.log(spells)
   return (
     <>
       hello world

@@ -10,7 +10,7 @@ app.use(cors());
 
 app.get('/', async (req, res) => {
     try{
-        const response = await axios.get('http://127.0.0.1:5000');
+        const response = await axios.get('http://localhost:5000');
         const result = response.data;
         console.log(result)
         // res.render('index.ejs', {spells: result})
