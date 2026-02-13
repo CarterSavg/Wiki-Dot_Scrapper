@@ -1,5 +1,5 @@
 import os
-import psycopg2
+import psycopg2.extras
 import requests
 import re
 import time
@@ -214,12 +214,40 @@ def create_spells_tables():
     print("Connected to database!")
     return cursor, conn
 
+def connect_to_db():
+    '''Connects to database using psycopg2 module and returns the connection object and the cursor object'''
+    load_dotenv()
+
+    DATABASE_URL = os.getenv("DATABASE_URL")
+    conn = psycopg2.connect(DATABASE_URL)
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+    return conn, cursor
+
+def dis_db(conn, cursor):
+    '''Disconnects from the connection and cursor objects'''
+    try:
+        cursor.close()
+        conn.close()
+    except:
+        pass
+
+def need_to_be_scrapped():
+    '''Checks if there are already records in the spells database. Return True if no records, False otherwise'''
+    conn, cursor = connect_to_db()
+    try: 
+        cursor.execute('''SELECT COUNT(*) FROM spells''')
+        data = cursor.fetchone()
+        dis_db(conn, cursor)
+        return not bool(data['count'])
+    except:
+        return True
+    
 def scrape_spells_brain():
     '''Scrapes all of the spells from https://dnd5e.wikidot.com/spells creates the tables and populates them'''
-
-    links = scrape_spell_links()
-    spells = scrape_spell(links)
-    database_setup(spells)
+    if need_to_be_scrapped():
+        links = scrape_spell_links()
+        spells = scrape_spell(links)
+        database_setup(spells)
     
 
 scrape_spells_brain()
