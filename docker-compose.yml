@@ -12,20 +12,6 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data  # Persist database data
 
-  api:
-    build: ./api
-    container_name: dnd_spells_api
-    command: sh -c "python3 ./api.py"
-    depends_on:
-      - db
-      - scrapper
-    ports:
-      - "8000:5000"
-    environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
-    volumes:
-      - ./api:/app
-
   scrapper:
     build: ./scrapper
     container_name: dnd_scraper
@@ -35,7 +21,7 @@ services:
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
     volumes:
-      - ./scrapper:/app
+      - ./scrapper/.:/app
 
   pgadmin:
     image: dpage/pgadmin4
