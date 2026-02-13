@@ -2,25 +2,35 @@
 This project scrappes the data from wikidot 5e and stores the data in a postgreSQL database. <br>This data can then be viewed in a webpage.
 
 ## Technologies
-This project uses python to scrape the data and a docker instance of postgreSQL as the database. <Br>This project then uses node and EJS to render the webpage.
-
-## Installation
-* Ensure [Python 3.8+](https://www.python.org/downloads/) is installed 
-* Ensure [Docker](https://docs.docker.com/get-started/get-docker/) is installed
-* Python Libraries 
+This project uses python to scrape the data and a docker instance of postgreSQL as the database. <Br>This project then uses node and React to render the webpage.<br>
+Python Libraries Used 
 ```sh
-pip install requests beautifulsoup4 psycopg2-binary dotenv flask
+requests beautifulsoup4 psycopg2-binary dotenv flask
 ```
 
+## Installation
+* Ensure [Docker](https://docs.docker.com/get-started/get-docker/) is installed
+
+
 ## Usage
-In order to run this us `docker-compose up -d` and once the container is up run the python script `python scrapper.py` then to run the api run `python api.py`
+In order to run this us `docker-compose up -d` and once the containers are up run the api is open on port 8000. <br>
+<b>NOTE</b>: A .env file is required in order to run `docker-compose`. Below is a .env example change the values provided.
+```env
+POSTGRES_USER=notreal
+POSTGRES_PASSWORD=changeme
+POSTGRES_DB=spells
+PGADMIN_DEFAULT_EMAIL=fake@gmail.com
+PGADMIN_DEFAULT_PASSWORD=otherChangeMe
+DATABASE_URL=postgresql://notreal:changeme@localhost:5432/spells
+```
+
 
 ## Database
 Connect to the PGAdmin by using the login and email specified in the `.env` file. <br>
 Then in the connection tab enter the hostname as the service name in the docker-compose file (default db).
 
 ## API
-The default for the flask API is localhost `127.0.0.1` port 5000 <br>
+The default for the flask API is `localhost` port 8000 externally 5000 internally <br>
 Specify multiple variables using the following notation `{Endpoint}?{Varibale}={value}&{Additional variable}={value}`
 
 ### Enpoints
