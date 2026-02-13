@@ -165,7 +165,6 @@ def create_spells_tables():
     load_dotenv()
 
     DATABASE_URL = os.getenv("DATABASE_URL")
-
     # Connect to PostgreSQL
     conn = psycopg2.connect(DATABASE_URL)
     cursor = conn.cursor()
@@ -221,7 +220,6 @@ def scrape_spells_brain():
     links = scrape_spell_links()
     spells = scrape_spell(links)
     database_setup(spells)
-    
     
 
 scrape_spells_brain()
