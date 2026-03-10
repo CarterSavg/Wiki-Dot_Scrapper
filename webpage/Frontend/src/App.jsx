@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 import Card from './components/Card/Card'
 
@@ -7,10 +7,15 @@ import Card from './components/Card/Card'
 // }
 
 function App() {
-  const spells =  fetch("http://localhost:3000/").then(res => res.json()).then(json => console.log(json))
+  const [spells, setSpells] = useState(null)
+
+  useEffect(() =>{
+    fetch("http://localhost:3000/").then(res => res.json()).then(data => {setSpells(data)})
+  });
   console.log(spells)
   return (
     <>
+      <>{JSON.stringify(spells)}</>
       hello world
       <Card
         key = {1}
