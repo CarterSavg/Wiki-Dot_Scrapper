@@ -48,4 +48,4 @@ Specify multiple variables using the following notation `{Endpoint}?{Varibale}={
 ## Website
 
 ## Usage
-In order to run the webpage run `docker-compose up -d` and once the container is up run `node index.js`
+In order to run the webpage run `docker-compose up -d` and once the container is up run `node index.js` for the backend and `npm run dev` for the frontend
