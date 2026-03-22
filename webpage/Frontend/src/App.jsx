@@ -21,25 +21,25 @@ function App() {
     loadSpells();
   }, []);
 
-spells.map(spell => console.log("new line " + spell.name))
-  
   return (
     <>
-      <Card
-        key = {1}
-        name = "Jump"
-        castingTime = "1 Action"
-        distance = "Self"
-        school = "Abjuration"
-        level = "1"
-        description = "JUMP LEL"
-        higherLevel = "Nothing"
-        verbal = "V"
-        somatic = ""
-        material = "M"
-        materialDesc = "I dont remeber"
-        users = {["Wizard", "Warlock"]}
-      />
+      {spells.map(spell =>
+        <Card
+        key = {spell.id}
+        name = {spell.name}
+        castingTime = {spell.casting_time}
+        distance = {spell.distance}
+        school = {spell.school}
+        level = {spell.level}
+        description = {spell.description}
+        higherLevel = {spell.higher_level}
+        verbal = {spell.verbal}
+        somatic = {spell.somatic}
+        material = {spell.material}
+        materialDesc = {spell.material_desc}
+        users = {spell.users}
+        />
+      )}
     </>
   )
 }
