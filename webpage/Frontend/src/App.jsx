@@ -21,6 +21,8 @@ function App() {
     loadSpells();
   }, []);
 
+
+  // TODO: Add loading icon
   return (
     <>
       {spells.map(spell =>
