@@ -1,21 +1,30 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 import Card from './components/Card/Card'
 
-// function getSpells() {
-  // return ()
-// }
-
 function App() {
-  const [spells, setSpells] = useState(null)
+  const [spells, setSpells] = useState([])
+  const [spellsLoading, setSpellsLoading] = useState(false)
 
-  fetch("http://localhost:3000/").then(res => res.json()).then(data => {setSpells(data)})
+  useEffect(() => {
+    async function loadSpells() {
+      setSpellsLoading(true)
 
-  console.log(spells)
+      let response = await fetch("http://localhost:3000/")
+      let res = await response.json()
+
+      setSpells(res)
+
+      setSpellsLoading(false)
+    }
+
+    loadSpells();
+  }, []);
+
+spells.map(spell => console.log("new line " + spell.name))
+  
   return (
     <>
-      <>{JSON.stringify(spells)}</>
-      hello world
       <Card
         key = {1}
         name = "Jump"
