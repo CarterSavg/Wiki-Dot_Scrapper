@@ -22,7 +22,6 @@ function App() {
   }, []);
 
 
-  // TODO: Add loading icon
   return (
     <>
       {spellsLoading && <LoadingIcon/>}
