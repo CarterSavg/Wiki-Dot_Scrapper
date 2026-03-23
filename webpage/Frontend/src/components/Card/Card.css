@@ -3,7 +3,9 @@
     margin: 2px;
     padding: 2px 3px 0px 3px;
     border: 2px solid black;
-    border-radius: 1em;
+    color: #000;
+    background-color: rgb(208, 209, 209);
+    border-radius: 1.5em;
     min-height: 3em;
     min-width: 2em;
     max-width: 15em;
