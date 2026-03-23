@@ -37,7 +37,7 @@ function App() {
         higherLevel = {spell.higher_level}
         verbal = {spell.verbal}
         somatic = {spell.somatic}
-        material = {spell.material}
+        material = {spell.component}
         materialDesc = {spell.material_desc}
         users = {spell.users}
         />
