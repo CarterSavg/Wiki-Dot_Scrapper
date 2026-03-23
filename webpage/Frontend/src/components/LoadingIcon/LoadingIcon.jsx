@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './LoadingIcon.css';
-import loadingIcon from '../../../assets/Book.webm';
+import loadingIcon from '../../assets/Book.webm';
 
 
 function LoadingIcon() {

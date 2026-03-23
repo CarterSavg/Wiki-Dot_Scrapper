@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 import Card from './components/Card/Card'
+import LoadingIcon from './components/LoadingIcon/LoadingIcon'
 
 function App() {
   const [spells, setSpells] = useState([])
@@ -14,7 +15,6 @@ function App() {
       let res = await response.json()
 
       setSpells(res)
-
       setSpellsLoading(false)
     }
 
@@ -25,7 +25,8 @@ function App() {
   // TODO: Add loading icon
   return (
     <>
-      {spells.map(spell =>
+      {spellsLoading && <LoadingIcon/>}
+      {!spellsLoading && spells.map(spell =>
         <Card
         key = {spell.id}
         name = {spell.name}
