@@ -18,9 +18,9 @@ function Card(props) {
             {expanded && <p class="spell-description">{props.description} </p>}
             {expanded && <p class="spell-higher"> {props.higherLevel} </p>}
             <p class="spell-component">
-                {props.verbal ? "V" : ""}
-                {props.somatic ? "S" : ""}
-                {props.material ? "M" : ""}
+                <p class="verbal-tag">{props.verbal ? "V" : ""}</p>
+                <p class="somatic-tag">{props.somatic ? "S" : ""}</p>
+                <p class="material-tag">{props.material ? "M" : ""}</p>
             </p>
             {expanded && <p class="material-desc"> {props.material ? "Material: " + props.materialDesc : null}</p>}
             {expanded && <ul>
