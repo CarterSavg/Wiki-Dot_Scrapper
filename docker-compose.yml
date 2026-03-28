@@ -37,6 +37,16 @@ services:
     volumes:
       - ./scrapper:/app
 
+  backend:
+    build: ./webpage/Backend
+    container_name: webpage_backend
+    depends_on:
+      - api
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./webpage/Backend:/app
+
   pgadmin:
     image: dpage/pgadmin4
     container_name: pgadmin
