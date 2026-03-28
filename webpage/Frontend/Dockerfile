@@ -6,4 +6,4 @@ COPY . /app
 
 RUN npm install
 
-CMD ["node","index.js"]
+RUN npm run dev

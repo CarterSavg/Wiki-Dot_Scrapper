@@ -47,6 +47,16 @@ services:
     volumes:
       - ./webpage/Backend:/app
 
+  frontend:
+    build: ./webpage/Frontend
+    container_name: webpage_frontend
+    depends_on:
+      - backend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./webpage/Frontend:/app
+
   pgadmin:
     image: dpage/pgadmin4
     container_name: pgadmin

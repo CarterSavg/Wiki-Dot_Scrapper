@@ -11,7 +11,7 @@ function App() {
     async function loadSpells() {
       setSpellsLoading(true)
 
-      let response = await fetch("http://localhost:3000/")
+      let response = await fetch("http://backend:3000/")
       let res = await response.json()
 
       setSpells(res)
