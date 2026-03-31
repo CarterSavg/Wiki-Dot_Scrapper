@@ -46,7 +46,8 @@ services:
       - "3000:3000"
     volumes:
       - ./webpage/Backend:/app
-
+#TODO Make profiles and make a .dev dockerfile
+# Add env with API url
   frontend:
     build: ./webpage/Frontend
     container_name: webpage_frontend
