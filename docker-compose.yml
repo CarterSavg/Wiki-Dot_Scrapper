@@ -46,8 +46,7 @@ services:
       - "3000:3000"
     volumes:
       - ./webpage/Backend:/app
-#TODO Make profiles and make a .dev dockerfile
-# Add env with API url
+#TODO Add env with API url
   frontend:
     build: ./webpage/Frontend
     container_name: webpage_frontend
@@ -56,6 +55,8 @@ services:
       - backend
     ports:
       - "5173:5173"
+    environment: 
+      BACKEND_URL: ${BACKEND_URL}
 
   frontend-dev:
     build: 
@@ -70,6 +71,9 @@ services:
     volumes:
     - ./webpage/Frontend:/app
     - /app/node_modules
+    environment: 
+      VITE_BACKEND_URL: ${BACKEND_URL}
+
 
   pgadmin:
     image: dpage/pgadmin4
