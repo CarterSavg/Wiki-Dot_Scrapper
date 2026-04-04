@@ -51,10 +51,25 @@ services:
   frontend:
     build: ./webpage/Frontend
     container_name: webpage_frontend
+    profiles: ["prod"]
     depends_on:
       - backend
     ports:
       - "5173:5173"
+
+  frontend-dev:
+    build: 
+      context: ./webpage/Frontend
+      dockerfile: Dockerfile.dev
+    container_name: webpage_frontend_dev
+    profiles: ["dev"]
+    depends_on:
+      - backend
+    ports:
+      - "5173:5173"
+    volumes:
+    - ./webpage/Frontend:/app
+    - /app/node_modules
 
   pgadmin:
     image: dpage/pgadmin4
