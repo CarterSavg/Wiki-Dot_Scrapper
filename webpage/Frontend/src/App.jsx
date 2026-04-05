@@ -4,7 +4,7 @@ import Card from './components/Card/Card'
 import LoadingIcon from './components/LoadingIcon/LoadingIcon'
 
 function App() {
-  console.log("in here test" + + import.meta.env.VITE_BACKEND_URL)
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
   const [spells, setSpells] = useState([])
   const [spellsLoading, setSpellsLoading] = useState(false)
 
@@ -12,7 +12,7 @@ function App() {
     async function loadSpells() {
       setSpellsLoading(true)
 
-      let response = await fetch("http://localhost:3000/")
+      let response = await fetch(`http://${backendURL}`)
       let res = await response.json()
 
       setSpells(res)
