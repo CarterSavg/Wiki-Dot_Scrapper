@@ -41,15 +41,18 @@
 
 .material-tag {
     background-color: #FB5012;
-    padding: 0.5em 0.5em 0;
+    padding: 0em 0.5em;
+    border-radius: 2rem;
 }
 
 .somatic-tag {
     background-color: #ae9cd0;
-    padding: 0.5em 0.5em 0;
+    padding: 0em 0.5em;
+    border-radius: 2rem;
 }
 
 .verbal-tag {
     background-color: #04dca3;
-    padding: 0.5em 0.5em 0;
+    padding: 0em 0.5em;
+    border-radius: 2rem;
 }
