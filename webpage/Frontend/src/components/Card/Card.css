@@ -38,3 +38,18 @@
     justify-content: center;
     margin: 0 0 0.5em;
 }
+
+.material-tag {
+    background-color: #FB5012;
+    padding: 0.5em 0.5em 0;
+}
+
+.somatic-tag {
+    background-color: #ae9cd0;
+    padding: 0.5em 0.5em 0;
+}
+
+.verbal-tag {
+    background-color: #04dca3;
+    padding: 0.5em 0.5em 0;
+}
