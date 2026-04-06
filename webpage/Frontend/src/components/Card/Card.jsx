@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion';
 import './Card.css'
 
 function Card(props) {
@@ -9,7 +10,7 @@ function Card(props) {
     }
 
     return (
-        <div onClick={toggleExpand}className="spell-card">
+        <div onClick={toggleExpand}className={`spell-card ${expanded ? 'spell-card-open' : ''}`}>
             <p className="spell-name"> {props.name}</p>
             <p className="casting-time">Casting Time: {props.castingTime} </p>
             <p className="spell-distance">Distance: {props.distance} </p>
