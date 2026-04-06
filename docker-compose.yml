@@ -48,15 +48,16 @@ services:
       - ./webpage/Backend:/app
 #TODO Add env with API url to PROD (Maybe needs to be arg since it is built static?)
   frontend:
-    build: ./webpage/Frontend
+    build: 
+      context: ./webpage/Frontend
+      args:
+        VITE_BACKEND_URL: ${BACKEND_URL}
     container_name: webpage_frontend
     profiles: ["prod"]
     depends_on:
       - backend
     ports:
       - "5173:5173"
-    environment: 
-      BACKEND_URL: ${BACKEND_URL}
 
   frontend-dev:
     build: 
