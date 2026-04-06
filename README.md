@@ -13,7 +13,7 @@ requests beautifulsoup4 psycopg2-binary dotenv flask
 
 
 ## Usage
-In order to run this us `docker-compose up -d` and once the containers are up run the api is open on port 8000. <br>
+In order to run the project run `docker-compose --profile <PROFILE> up -d` where PROFILE is either `dev` or `prod`. <br>
 <b>NOTE</b>: A .env file is required in order to run `docker-compose`. Below is a .env example change the values provided.
 ```env
 POSTGRES_USER=notreal
@@ -22,6 +22,7 @@ POSTGRES_DB=spells
 PGADMIN_DEFAULT_EMAIL=fake@gmail.com
 PGADMIN_DEFAULT_PASSWORD=otherChangeMe
 DATABASE_URL=postgresql://notreal:changeme@localhost:5432/spells
+BACKEND_URL=backend:3000
 ```
 
 
@@ -48,4 +49,4 @@ Specify multiple variables using the following notation `{Endpoint}?{Varibale}={
 ## Website
 
 ## Usage
-In order to run the webpage run `docker-compose up -d` and once the container is up run `node index.js` for the backend and `npm run dev` for the frontend
+In order to run the project run `docker-compose --profile <PROFILE> up -d` where PROFILE is either `dev` or `prod`
