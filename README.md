@@ -25,7 +25,6 @@ DATABASE_URL=postgresql://notreal:changeme@localhost:5432/spells
 BACKEND_URL=backend:3000
 ```
 
-
 ## Database
 Connect to the PGAdmin by using the login and email specified in the `.env` file. <br>
 Then in the connection tab enter the hostname as the service name in the docker-compose file (default db).
@@ -45,8 +44,3 @@ Specify multiple variables using the following notation `{Endpoint}?{Varibale}={
 `/spell/user/<caster>` Returns all the spells that the specified caster is able to cast. <br>
 `/spell/school/<school>` Returns all the spells that are in the specific school. (Comma delimited) <br>
 `/spell/filter/all` Returns all the spells within the given parameters. Input: Level (Upper and lower), Casting time, Name, Level, School, Users
-
-## Website
-
-## Usage
-In order to run the project run `docker-compose --profile <PROFILE> up -d` where PROFILE is either `dev` or `prod`
