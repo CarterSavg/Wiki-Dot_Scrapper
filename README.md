@@ -14,6 +14,7 @@ requests beautifulsoup4 psycopg2-binary dotenv flask
 
 ## Usage
 In order to run the project run `docker-compose --profile <PROFILE> up -d` where PROFILE is either `dev` or `prod`. <br>
+Dev allows you to make changes while the app is running vs prod serves the website and must be taken back down and rebuilt to apply changes.
 <b>NOTE</b>: A .env file is required in order to run `docker-compose`. Below is a .env example change the values provided.
 ```env
 POSTGRES_USER=notreal
