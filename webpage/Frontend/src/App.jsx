@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import './App.css'
-import Card from './components/Card/Card'
 import Gallery from './components/Gallery/Gallery'
 import LoadingIcon from './components/LoadingIcon/LoadingIcon'
 import Filter from "./components/Filter/Filter";
