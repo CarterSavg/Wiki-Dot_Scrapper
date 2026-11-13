@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 import Card from './components/Card/Card'
+import Gallery from './components/Gallery/Gallery'
 import LoadingIcon from './components/LoadingIcon/LoadingIcon'
 import Filter from "./components/Filter/Filter";
 
@@ -23,28 +24,11 @@ function App() {
     loadSpells();
   }, []);
 
-
   return (
     <>
       {spellsLoading && <LoadingIcon/>}
       {!spellsLoading && <Filter />}
-      {!spellsLoading && spells.map(spell =>
-        <Card
-        key = {spell.id}
-        name = {spell.name}
-        castingTime = {spell.casting_time}
-        distance = {spell.distance}
-        school = {spell.school}
-        level = {spell.level}
-        description = {spell.description}
-        higherLevel = {spell.higher_level}
-        verbal = {spell.verbal}
-        somatic = {spell.somatic}
-        material = {spell.component}
-        materialDesc = {spell.material_desc}
-        users = {spell.users}
-        />
-      )}
+      {!spellsLoading && <Gallery spells = {spells}/>}
     </>
   )
 }
