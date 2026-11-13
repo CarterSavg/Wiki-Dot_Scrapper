@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import './App.css'
 import Card from './components/Card/Card'
 import LoadingIcon from './components/LoadingIcon/LoadingIcon'
+import Filter from "./components/Filter/Filter";
 
 function App() {
   const backendURL = import.meta.env.VITE_BACKEND_URL;
@@ -26,6 +27,7 @@ function App() {
   return (
     <>
       {spellsLoading && <LoadingIcon/>}
+      {!spellsLoading && <Filter />}
       {!spellsLoading && spells.map(spell =>
         <Card
         key = {spell.id}
