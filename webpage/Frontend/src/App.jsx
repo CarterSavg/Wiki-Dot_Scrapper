@@ -26,8 +26,9 @@ function App() {
   return (
     <>
       {spellsLoading && <LoadingIcon/>}
-      {!spellsLoading && <Filter />}
-      {!spellsLoading && <Gallery spells = {spells}/>}
+      {!spellsLoading && <Filter className = "Filter" />}
+      {!spellsLoading && <Gallery className = "Gallery" spells = {spells}/>}
+      {/* TODO: assign grid template cols to filter and gallery to have cards on one side */}
     </>
   )
 }
