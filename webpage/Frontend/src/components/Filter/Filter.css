@@ -1,0 +1,10 @@
+.filter-container{
+    position: sticky;
+    top: 20rem;
+}
+
+.filter {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
